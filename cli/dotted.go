@@ -10,6 +10,7 @@ func generateDotted(outFile io.WriteCloser) error {
 	pdf, err := paper_generator.GenerateDotted(
 		format,
 		orientation,
+		backgroundColor,
 		dotColor,
 		dotDistance,
 		dotRadius,

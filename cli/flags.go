@@ -11,6 +11,7 @@ import (
 
 var format = paper.A4
 var orientation = paper.Portrait
+var backgroundColor = paper.White
 var dotColor = paper.Gray
 var dotDistance = 5.0
 var dotRadius = 0.35
@@ -24,7 +25,8 @@ func Start() error {
 
 	flagFormat("format", "Format of the paper", &format)
 	flagOrientation("orientation", "Orientation of the paper", &orientation)
-	flagColor("color", "Dot color", &dotColor)
+	flagColor("background-color", "Background color", &backgroundColor)
+	flagColor("dot-color", "Dot color", &dotColor)
 	flagFloat64("distance", "Distance between dots", &dotDistance)
 	flagFloat64("radius", "Radius of a dot", &dotRadius)
 	flag.Parse()
@@ -80,13 +82,18 @@ func flagOrientation(name string, useage string, out *paper.Orientation) {
 func flagColor(name string, useage string, out *paper.Color) {
 	flag.Func(name, useage, func(value string) error {
 		color, ok := paper.Colors[value]
-		if !ok {
-			// TODO: Add support for HEX, RGB,...
-			return errors.New("unkown color")
+		if ok {
+			*out = color
+			return nil
 		}
 
-		*out = color
-		return nil
+		color, ok = paper.ColorFromString(value)
+		if ok {
+			*out = color
+			return nil
+		}
+
+		return errors.New("unkown color")
 	})
 }
 

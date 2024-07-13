@@ -1,5 +1,10 @@
 package paper
 
+import (
+	"fmt"
+	"log"
+)
+
 var (
 	Colors = map[string]Color{
 		"black":     Black,
@@ -32,4 +37,16 @@ func (c Color) GreenInt() int {
 
 func (c Color) BlueInt() int {
 	return int(c.Blue)
+}
+
+func ColorFromString(s string) (Color, bool) {
+	c := Color{}
+
+	_, err := fmt.Sscanf(s, "%02x%02x%02x", &c.Red, &c.Green, &c.Blue)
+	if err != nil {
+		log.Printf("[ERROR]: %s", err.Error())
+		return c, false
+	}
+
+	return c, true
 }

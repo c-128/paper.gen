@@ -8,6 +8,7 @@ import (
 func GenerateDotted(
 	format paper.Format,
 	orientation paper.Orientation,
+	backgroundColor paper.Color,
 	dotColor paper.Color,
 	dotDistance float64,
 	dotRadius float64,
@@ -15,13 +16,22 @@ func GenerateDotted(
 	pdf := format.NewFPDF(orientation)
 
 	pdf.AddPage()
+
+	width, height := pdf.GetPageSize()
+
+	pdf.SetFillColor(
+		backgroundColor.RedInt(),
+		backgroundColor.GreenInt(),
+		backgroundColor.BlueInt(),
+	)
+
+	pdf.Rect(0, 0, width, height, "F")
+
 	pdf.SetFillColor(
 		dotColor.RedInt(),
 		dotColor.GreenInt(),
 		dotColor.BlueInt(),
 	)
-
-	width, height := pdf.GetPageSize()
 
 	for x := float64(0); x < width; x += dotDistance {
 		for y := float64(0); y < height; y += dotDistance {

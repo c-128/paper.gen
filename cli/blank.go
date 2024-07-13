@@ -10,6 +10,7 @@ func generateBlank(outFile io.WriteCloser) error {
 	pdf, err := paper_generator.GenerateBlank(
 		format,
 		orientation,
+		backgroundColor,
 	)
 	if err != nil {
 		return err
